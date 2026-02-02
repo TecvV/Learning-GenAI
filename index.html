@@ -1,0 +1,492 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChatGPT UI</title>
+
+  <style>
+    :root {
+      --bg: #343541;
+      --chat-bg: #444654;
+      --user-bg: #3a3b3f;
+      --bot-bg: #028c37;
+      --border: #565869;
+      --input-bg: #40414f;
+      --text: #ececf1;
+      --accent: #19c37d;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #010320;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      background: #010320;
+    }
+
+    .chat-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      background-color: #010320;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background: #010320;
+      margin-left: auto;
+      color: #09e511;
+      text-align: left;
+    }
+
+    .bot {
+      background: #010320;
+      margin-right: auto;
+      color: #09e511;
+      text-align: left;
+    }
+
+    .bot.typing::after {
+      content: "▌";
+      animation: blink 1s infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    .chat-input {
+      border-top: 1px solid var(--border);
+      background: #010320;
+      margin-bottom: 2.5%;
+    }
+
+    .input-box {
+      display: flex;
+      gap: 10px;
+      background: #010320;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    textarea {
+      flex: 1;
+      background: #010320;
+      border: none;
+      outline: none;
+      resize: none;
+      color: #09e511;
+      font-size: 15px;
+      max-height: 200px;
+    }
+
+    button {
+      background: #010320;
+      border: none;
+      color: #09e511;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 600px) {
+      .chat-container {
+        height: 100vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">TecV.AI</div>
+
+    <div class="chat-messages" id="chat">
+      <div class="message bot">Hello! How can I help you today?</div>
+    </div>
+
+    <div class="chat-input">
+      <div class="input-box">
+        <textarea id="input" rows="1" placeholder="Send a message..."></textarea>
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("input");
+
+    const id = Date.now().toString(36) + Math.random().toString(36);
+
+    async function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      addUserMessage(text);
+      input.value = "";
+
+      const botText = await callServer(text);
+      addBotMessage(botText);
+    }
+
+    function addUserMessage(text) {
+      const div = document.createElement("div");
+      div.className = "message user";
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function addBotMessage(text) {
+      const div = document.createElement("div");
+      div.className = "message bot typing";
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+
+      typeEffect(div, text);
+    }
+
+    function typeEffect(element, text, speed = 18) {
+      let index = 0;
+      element.textContent = "";
+
+      const interval = setInterval(() => {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          chat.scrollTop = chat.scrollHeight;
+        } else {
+          clearInterval(interval);
+          element.classList.remove("typing");
+        }
+      }, speed);
+    }
+
+    async function callServer(text) {
+      const response = await fetch("http://localhost:3001", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ message: text, id })
+      });
+
+      if (!response.ok) {
+        throw new Error("Error generating response..");
+      }
+
+      const result = await response.json();
+      return result.message;
+    }
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+
+</body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuantZeus.AI</title>
+
+  <style>
+    :root {
+      --bg: #343541;
+      --chat-bg: #444654;
+      --user-bg: #3a3b3f;
+      --bot-bg: #028c37;
+      --border: #565869;
+      --input-bg: #40414f;
+      --text: #ececf1;
+      --accent: #19c37d;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #010320;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      background: #010320;
+    }
+
+    .chat-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      background-color: #010320;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background: #010320;
+      margin-left: auto;
+      color: #09e511;
+      text-align: left;
+    }
+
+    .bot {
+      background: #010320;
+      margin-right: auto;
+      color: #09e511;
+      text-align: left;
+    }
+
+    .bot.typing::after {
+      content: "▌";
+      animation: blink 1s infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    .chat-input {
+      border-top: 1px solid var(--border);
+      background: #010320;
+      margin-bottom: 2.5%;
+    }
+
+    .input-box {
+      display: flex;
+      gap: 10px;
+      background: #010320;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    textarea {
+      flex: 1;
+      background: #010320;
+      border: none;
+      outline: none;
+      resize: none;
+      color: #09e511;
+      font-size: 15px;
+      max-height: 200px;
+    }
+
+    button {
+      background: #010320;
+      border: none;
+      color: #09e511;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 600px) {
+      .chat-container {
+        height: 100vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">QuantZeus.AI</div>
+
+    <div class="chat-messages" id="chat">
+  <div class="message bot typing" id="welcome"></div>
+</div>
+
+
+    <div class="chat-input">
+      <div class="input-box">
+        <textarea id="input" rows="1" placeholder="Send a message..."></textarea>
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const chat = document.getElementById("chat");
+  const input = document.getElementById("input");
+
+  const id = Date.now().toString(36) + Math.random().toString(36);
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    addUserMessage(text);
+    input.value = "";
+
+    // Show thinking message immediately
+    const thinkingDiv = addThinkingMessage();
+
+    try {
+      const botText = await callServer(text);
+      replaceThinkingWithBot(thinkingDiv, botText);
+    } catch (err) {
+      thinkingDiv.textContent = "Something went wrong.";
+      thinkingDiv.classList.remove("typing");
+    }
+  }
+
+  function addUserMessage(text) {
+    const div = document.createElement("div");
+    div.className = "message user";
+    div.textContent = text;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  function addThinkingMessage() {
+    const div = document.createElement("div");
+    div.className = "message bot typing";
+    div.textContent = "Thinking...";
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  }
+
+  function replaceThinkingWithBot(element, text) {
+    element.textContent = "";
+    typeEffect(element, text);
+  }
+
+  function typeEffect(element, text, speed = 18) {
+    let index = 0;
+    element.textContent = "";
+
+    const interval = setInterval(() => {
+      if (index < text.length) {
+        element.textContent += text.charAt(index);
+        index++;
+        chat.scrollTop = chat.scrollHeight;
+      } else {
+        clearInterval(interval);
+        element.classList.remove("typing");
+      }
+    }, speed);
+  }
+
+  async function callServer(text) {
+    const response = await fetch("http://localhost:3001", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text, id })
+    });
+
+    if (!response.ok) {
+      throw new Error("Error generating response");
+    }
+
+    const result = await response.json();
+    return result.message;
+  }
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  const welcomeText = `Welcome to the world of QA. Myself QuantZeus.AI, your personal AI assistant, designed to help you clarify all your doubts related to Quantitative Aptitude questions. You can also generate QA sectional mock tests completely free of cost, allowing you to practice, analyze, and improve with ease.`;
+
+
+  window.addEventListener("load", () => {
+    const welcomeDiv = document.getElementById("welcome");
+    typeEffect(welcomeDiv, welcomeText, 15);
+  });
+</script>
+
+
+</body>
+</html>
