@@ -2,7 +2,7 @@ import express, { json } from 'express'
 import { generate } from './chat.js'
 import cors from 'cors'
 const app = express()
-const port = 3001
+const port = process.env.PORT || 3001
 
 app.use(cors())
 
@@ -29,3 +29,4 @@ app.post('/', async (req, res) => {
 app.listen(port, () => {
   console.log(`App running on port ${port}`)
 })
+
